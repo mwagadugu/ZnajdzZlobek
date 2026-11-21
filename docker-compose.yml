@@ -1,0 +1,20 @@
+# Lokalna kopia oryginalnej bazy, nie zmienia plików źródłowych.
+services:
+  db:
+    image: postgis/postgis:18-3.7
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: zlobki
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./database/backup:/backup:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d zlobki"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+volumes:
+  pgdata:

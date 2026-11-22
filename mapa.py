@@ -57,7 +57,6 @@ def pokaz_filtry(osiedla) -> Filtry:
             [WSZYSTKIE, "TAK", "NIE"],
         )
         nazwa = st.text_input("Szukaj nazwy żłobka", placeholder="Wpisz fragment nazwy")
-        st.caption("Źródło danych: PostgreSQL/PostGIS.")
 
     return Filtry(osiedle=osiedle, dostosowanie=dostosowanie, nazwa=nazwa)
 

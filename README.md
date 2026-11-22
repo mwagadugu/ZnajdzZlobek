@@ -116,7 +116,7 @@ Projekt wykorzystuje dane lokalizacyjne żłobków oraz granice osiedli Wrocław
 
 ## Autorzy
 
-Maja Janus
-Wiktoria Kempa
-Dominika Lemanik
-Małgorzata Łuczka
+- Maja Janus
+- Wiktoria Kempa
+- Dominika Lemanik
+- Małgorzata Łuczka

@@ -22,7 +22,7 @@ services:
       retries: 15
 
   app:
-    build: ../../AppData/Local/Temp
+    build: .
 
     ports:
       - "127.0.0.1:8501:8501"

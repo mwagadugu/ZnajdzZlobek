@@ -47,68 +47,48 @@ Do lokalnego uruchomienia projektu potrzebne są:
 - Biblioteki wymienione w `requirements.txt`.
 - Dostęp do plików projektu i kopii bazy danych.
 
-## Uruchomienie projektu
+## Jak uruchomić aplikację
 
-### 1. Pobranie repozytorium
+Do uruchomienia projektu potrzebny jest Docker Desktop.
 
-Pobierz repozytorium z GitHuba i rozpakuj je na komputerze.
-
-### 2. Konfiguracja bazy danych
-
-Utwórz w głównym folderze projektu plik `.env` na podstawie `.env.example` i ustaw własne hasło:
-
-```env
-POSTGRES_PASSWORD=TWOJE_HASLO
-```
-
-Uruchom bazę danych:
+1. Włącz Docker Desktop.
+2. Pobierz projekt z GitHuba przez **Code → Download ZIP** i rozpakuj ZIP.
+3. Otwórz folder, w którym znajduje się plik `docker-compose.yml`.
+4. Otwórz terminal w tym folderze i wpisz:
 
 ```bash
-docker compose up -d
+docker compose up --build
 ```
+Pierwsze uruchomienie może potrwać kilka minut. Docker przygotuje środowisko, uruchomi bazę PostgreSQL z PostGIS oraz aplikację Streamlit.
 
-### 3. Przywrócenie danych
+Nie trzeba osobno instalować Pythona, PostgreSQL ani bibliotek.
 
-Przy pierwszym uruchomieniu zaimportuj kopię bazy:
+Po uruchomieniu aplikacji wejdź na:
+[http://localhost:8501](http://localhost:8501)
+
+## Jak zatrzymać aplikację
+
+W terminalu naciśnij **Ctrl+C**.
+
+Możesz też zatrzymać i usunąć kontenery poleceniem:
 
 ```bash
-docker compose exec db pg_restore -U postgres -d zlobki --no-owner --no-privileges /backup/zlobki.backup
+docker compose down
 ```
 
-### 4. Instalacja bibliotek
+Dane bazy pozostaną zapisane w wolumenie Dockera.
+
+## Jak uruchomić aplikację ponownie
+
+Włącz Docker Desktop, otwórz terminal w folderze projektu i wpisz:
 
 ```bash
-py -m pip install -r requirements.txt sqlalchemy psycopg2-binary
+docker compose up
 ```
 
-Polecenie `py` dotyczy systemu Windows. W innych systemach można użyć odpowiedniego polecenia uruchamiającego Pythona.
+Import danych odbywa się tylko przy pierwszym utworzeniu bazy.
 
-### 5. Konfiguracja połączenia Streamlit
-
-Utwórz plik `.streamlit/secrets.toml`:
-
-```toml
-[postgres]
-host = "localhost"
-port = 55432
-database = "zlobki"
-user = "postgres"
-password = "TWOJE_HASLO"
-```
-
-Wpisz takie samo hasło jak w pliku `.env`.
-
-### 6. Uruchomienie aplikacji
-
-```bash
-py -m streamlit run mapa.py
-```
-
-Otwórz w przeglądarce:
-
-http://localhost:8501
-
-Przy kolejnych uruchomieniach wystarczy uruchomić Dockera oraz aplikację Streamlit. Nie trzeba ponownie importować bazy, jeśli jej dane zostały zachowane.
+**Uwaga:** polecenie `docker compose down -v` usuwa również dane bazy. Przy kolejnym uruchomieniu zostaną one ponownie wczytane z pliku `zlobki.sql`, a zmiany niezapisane w tym pliku zostaną utracone.
 
 ## Dane przestrzenne
 

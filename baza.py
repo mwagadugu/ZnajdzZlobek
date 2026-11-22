@@ -1,6 +1,7 @@
 """Odczyt z istniejącej bazy PostgreSQL/PostGIS bez zmiany tabel i zapytań."""
 from pathlib import Path
 import math
+import os
 
 import geopandas as gpd
 import pandas as pd
@@ -11,10 +12,24 @@ from sqlalchemy.engine import URL
 SQL_DIR = Path(__file__).resolve().parent / "database" / "sql"
 
 
+
 @st.cache_resource
 def silnik_bazy():
-    """Używaj transakcji wyłącznie do odczytu."""
-    cfg = st.secrets["postgres"]
+    """Tworzy połączenie z PostgreSQL w trybie tylko do odczytu."""
+
+    if os.getenv("POSTGRES_HOST"):
+        # Połączenie aplikacji uruchomionej w Dockerze
+        cfg = {
+            "host": os.environ["POSTGRES_HOST"],
+            "port": os.getenv("POSTGRES_PORT", "5432"),
+            "database": os.getenv("POSTGRES_DB", "zlobki"),
+            "user": os.getenv("POSTGRES_USER", "postgres"),
+            "password": os.environ["POSTGRES_PASSWORD"],
+        }
+    else:
+        # Połączenie lokalne podczas pracy w PyCharm
+        cfg = st.secrets["postgres"]
+
     url = URL.create(
         "postgresql+psycopg2",
         username=cfg["user"],
@@ -23,10 +38,13 @@ def silnik_bazy():
         port=int(cfg["port"]),
         database=cfg["database"],
     )
+
     return create_engine(
         url,
         pool_pre_ping=True,
-        connect_args={"options": "-c default_transaction_read_only=on"},
+        connect_args={
+            "options": "-c default_transaction_read_only=on"
+        },
     )
 
 

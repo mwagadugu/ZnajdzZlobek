@@ -29,14 +29,23 @@ Celem aplikacji jest ułatwienie wyszukiwania placówek opieki nad dziećmi oraz
 
 ## Struktura projektu
 
+- `github/workflows/` - konfiguracja automatycznych testów GitHub Actions
+- `.streamlit/` – konfiguracja aplikacji Streamlit.
 - `mapa.py` – interfejs aplikacji i interaktywna mapa.
+- `mapa_funkcje.py` - funkcje pomocnicze związane z budowaniem mapy, wyszukiwaniem, filtrowaniem i statystykami
+- `wykresy.py` - przygotowanie wykresu dostępności placówek dla osób z niepełnosprawnościami
+- `style.css` - definicja wyglądu aplikacji
+- `zlobki.gpkg` - dane przestrzenne w formacie GeoPackage
+- `zlobki.sql` - plik SQL wykorzystywany podczas inicjalizacji bazy danych
+- `zlobki.xlsx` - dane dotyczące żłobków w formacie arkusza kalkulacyjnego
 - `baza.py` – połączenie z bazą PostgreSQL/PostGIS i wykonywanie zapytań SQL.
 - `dane.py` – funkcje przetwarzania danych i obliczania statystyk.
 - `database/sql/` – zapytania SQL wykorzystywane w analizach.
 - `database/backup/` – kopia zapasowa bazy danych.
-- `.streamlit/` – konfiguracja aplikacji Streamlit.
 - `requirements.txt` – biblioteki Pythona.
 - `docker-compose.yml` – konfiguracja kontenera bazy danych.
+  
+
 
 ## Wymagania
 

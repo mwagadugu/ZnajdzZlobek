@@ -1,56 +1,102 @@
-# Znajdź Żłobek — mapa żłobków we Wrocławiu
+# Znajdź żłobek – interaktywna mapa żłobków we Wrocławiu
 
-Aplikacja Streamlit do wizualizacji rozmieszczenia żłobków we Wrocławiu oraz analizy danych z PostgreSQL/PostGIS.
+## Opis projektu
 
-## Uruchomienie — jedna komenda
+„Znajdź żłobek” to aplikacja internetowa umożliwiająca przeglądanie lokalizacji żłobków na terenie Wrocławia. Projekt powstał w ramach zajęć z geoinformatyki.
 
-Wymaganie: [Docker Desktop](https://www.docker.com/products/docker-desktop/) lub Docker z wtyczką Compose.
+Celem aplikacji jest ułatwienie wyszukiwania placówek opieki nad dziećmi oraz prezentacja informacji przestrzennych i statystycznych dotyczących żłobków w poszczególnych osiedlach miasta.
 
-Po pobraniu repozytorium z GitHuba otwórz terminal **w katalogu projektu** i uruchom:
+## Funkcjonalności
+
+- Interaktywna mapa żłobków i granic osiedli Wrocławia.
+- Wyszukiwanie żłobków po nazwie.
+- Filtrowanie placówek według osiedla.
+- Filtrowanie według dostosowania do potrzeb osób z niepełnosprawnościami.
+- Wyświetlanie nazwy, adresu i liczby miejsc w placówce.
+- Statystyki liczby żłobków i miejsc w poszczególnych osiedlach.
+- Pobieranie danych w formatach CSV i GeoJSON.
+
+## Wykorzystane technologie
+
+- Python
+- Streamlit
+- Folium
+- GeoPandas
+- PostgreSQL z rozszerzeniem PostGIS
+- SQL
+- Docker i Docker Compose
+- GitHub
+
+## Struktura projektu
+
+- `mapa.py` – interfejs aplikacji i interaktywna mapa.
+- `baza.py` – połączenie z bazą PostgreSQL/PostGIS i wykonywanie zapytań SQL.
+- `dane.py` – funkcje przetwarzania danych i obliczania statystyk.
+- `database/sql/` – zapytania SQL wykorzystywane w analizach.
+- `database/backup/` – kopia zapasowa bazy danych.
+- `.streamlit/` – konfiguracja aplikacji Streamlit.
+- `requirements.txt` – biblioteki Pythona.
+- `docker-compose.yml` – konfiguracja kontenera bazy danych.
+
+## Wymagania
+
+Do lokalnego uruchomienia projektu potrzebne są:
+
+- Python i pip.
+- Docker Desktop z obsługą Docker Compose.
+- Biblioteki wymienione w `requirements.txt`.
+- Dostęp do plików projektu i kopii bazy danych.
+
+## Jak uruchomić aplikację
+
+Do uruchomienia projektu potrzebny jest Docker Desktop.
+
+1. Włącz Docker Desktop.
+2. Pobierz projekt z GitHuba przez **Code → Download ZIP** i rozpakuj ZIP.
+3. Otwórz folder, w którym znajduje się plik `docker-compose.yml`.
+4. Otwórz terminal w tym folderze i wpisz:
 
 ```bash
 docker compose up --build
 ```
-
-Po starcie kontenerów wejdź na **http://localhost:8501**.
-
-Docker automatycznie:
-- buduje środowisko Pythona z bibliotekami z `requirements.txt`,
-- uruchamia PostgreSQL z PostGIS,
-- importuje dane z pliku `zlobki.sql` przy **pierwszym** utworzeniu bazy,
-- uruchamia aplikację Streamlit.
+Pierwsze uruchomienie może potrwać kilka minut. Docker przygotuje środowisko, uruchomi bazę PostgreSQL z PostGIS oraz aplikację Streamlit.
 
 Nie trzeba osobno instalować Pythona, PostgreSQL ani bibliotek.
 
-## Zatrzymywanie i ponowne uruchomienie
+Po uruchomieniu aplikacji wejdź na:
+[http://localhost:8501](http://localhost:8501)
 
-Naciśnij `Ctrl+C`, aby zakończyć działanie uruchomionego polecenia.
-Aby wyłączyć kontenery działające w tle (jeśli były uruchomione z `-d`):
+## Jak zatrzymać aplikację
+
+W terminalu naciśnij **Ctrl+C**.
+
+Możesz też zatrzymać i usunąć kontenery poleceniem:
 
 ```bash
 docker compose down
 ```
 
-Dane PostgreSQL są zapisywane w wolumenie Dockera i pozostają między uruchomieniami.
-**Uwaga:** `docker compose down -v` usuwa wolumen bazy i jej dane — przy kolejnym uruchomieniu baza zostanie ponownie zaimportowana z `zlobki.sql`.
+Dane bazy pozostaną zapisane w wolumenie Dockera.
 
-## Hasło bazy danych
+## Jak uruchomić aplikację ponownie
 
-Dla łatwego lokalnego uruchomienia plik `docker-compose.yml` ma domyślne **hasło deweloperskie**. Usługi są wystawione tylko na `127.0.0.1` (localhost); nie używaj tego hasła do publikacji aplikacji w internecie.
+Włącz Docker Desktop, otwórz terminal w folderze projektu i wpisz:
 
-Aby ustawić własne hasło, utwórz plik `.env` na podstawie `.env.example` i wpisz np.:
-
-```dotenv
-POSTGRES_PASSWORD=tu_wpisz_mocne_wlasne_haslo
+```bash
+docker compose up
 ```
 
-Pliki `.env` i `.streamlit/secrets.toml` są ignorowane przez Git, aby nie publikować prywatnych poświadczeń. Zmiana hasła po utworzeniu wolumenu bazy nie zmienia automatycznie hasła istniejącego użytkownika PostgreSQL.
+Import danych odbywa się tylko przy pierwszym utworzeniu bazy.
 
-## Główne pliki
+**Uwaga:** polecenie `docker compose down -v` usuwa również dane bazy. Przy kolejnym uruchomieniu zostaną one ponownie wczytane z pliku `zlobki.sql`, a zmiany niezapisane w tym pliku zostaną utracone.
 
-- `mapa.py` — interfejs aplikacji Streamlit.
-- `baza.py` — pobieranie danych z PostgreSQL/PostGIS.
-- `docker-compose.yml` — uruchamianie aplikacji i bazy danych.
-- `Dockerfile`, `requirements.txt` — środowisko aplikacji.
-- `zlobki.sql` — zrzut bazy automatycznie importowany przy pierwszym uruchomieniu.
-- `database/sql/` — zapytania do analiz statystycznych.
+## Dane przestrzenne
+
+Projekt wykorzystuje dane lokalizacyjne żłobków oraz granice osiedli Wrocławia. Dane są przechowywane w bazie PostgreSQL/PostGIS i wykorzystywane do prezentacji mapy oraz analiz przestrzennych.
+
+## Autorzy
+
+- Maja Janus
+- Wiktoria Kempa
+- Dominika Lemanik
+- Małgorzata Łuczka

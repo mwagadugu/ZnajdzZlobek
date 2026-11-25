@@ -1,0 +1,117 @@
+/* Kolory aplikacji: pastelowy róż, zieleń i limonka */
+
+/* Główne tło i panel boczny */
+.stApp {
+    background-color: #FFFDF8;
+    color: #3E3A39;
+}
+
+[data-testid="stSidebar"] {
+    background-color: #F6FBEF;
+    border-right: 2px solid #F48FB1;
+}
+
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] p {
+    color: #3E3A39 !important;
+}
+
+/* Nagłówki */
+h1, h2, h3 {
+    color: #E76F9B !important;
+}
+
+/* Statystyki */
+[data-testid="stMetric"] {
+    background-color: #FFFFFF;
+    border: 2px solid #CBEA4B;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-testid="stMetricLabel"] {
+    color: #5A5A5A !important;
+    font-weight: 600;
+}
+
+[data-testid="stMetricValue"] {
+    color: #69B34C !important;
+    font-weight: 800;
+}
+
+/* Lista osiedli i filtr dostępności */
+.stSelectbox div[data-baseweb="select"] > div {
+    background-color: #FFFFFF !important;
+    color: #3E3A39 !important;
+    border: 1px solid #F6B3C8 !important;
+    border-radius: 12px !important;
+}
+
+.stSelectbox div[data-baseweb="select"] span {
+    color: #3E3A39 !important;
+}
+
+/* Wyszukiwarka: tylko jedno obramowanie */
+.stTextInput [data-baseweb="input"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #F48FB1 !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+}
+
+.stTextInput input {
+    background-color: transparent !important;
+    color: #3E3A39 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.stTextInput input::placeholder {
+    color: #8A8580 !important;
+}
+
+.stTextInput [data-baseweb="input"]:focus-within {
+    border-color: #E76F9B !important;
+    box-shadow: none !important;
+}
+
+/* Przyciski */
+.stDownloadButton button {
+    background-color: #F48FB1;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    padding: 0.6rem 1rem;
+}
+
+.stDownloadButton button:hover {
+    background-color: #E76F9B;
+    color: #FFFFFF;
+}
+
+.stButton button {
+    background-color: #69B34C;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+.stButton button:hover {
+    background-color: #5AA33F;
+    color: #FFFFFF;
+}
+
+/* Tabela i komunikaty */
+[data-testid="stDataFrame"] {
+    border: 2px solid #EFDDE4;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.stAlert {
+    border-radius: 14px;
+}

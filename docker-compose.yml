@@ -1,0 +1,44 @@
+
+services:
+  db:
+    image: postgis/postgis:18-3.7
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zmien_haslo_dla_wersji_publicznej}
+      POSTGRES_DB: zlobki
+
+    ports:
+      - "127.0.0.1:55432:5432"
+
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./database/backup:/backup:ro
+      - ./zlobki.sql:/docker-entrypoint-initdb.d/20-zlobki.sql:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d zlobki"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  app:
+    build: .
+
+    ports:
+      - "127.0.0.1:8501:8501"
+
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: zlobki
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zmien_haslo_dla_wersji_publicznej}
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    restart: unless-stopped
+
+volumes:
+  pgdata:

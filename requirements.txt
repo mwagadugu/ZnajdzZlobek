@@ -1,0 +1,16 @@
+# Python 3.11 lub nowszy
+
+# Aplikacja Streamlit
+streamlit>=1.43,<2
+streamlit-folium>=0.27.4,<1
+
+# Mapa i dane przestrzenne
+folium>=0.19,<1
+geopandas>=1.0,<2
+
+# Przetwarzanie danych
+pandas>=2.2,<3
+
+# PostgreSQL / PostGIS
+sqlalchemy>=2.0,<3
+psycopg2-binary>=2.9,<3
